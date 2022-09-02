@@ -76,7 +76,7 @@ const App = () => {
       setBlogs( blogs )
       blogs.sort((a,b) => b.likes-a.likes)
     }catch(err){
-      setNotification({ type:1,message:err.message })
+      setNotification({ type:1,message:err.response.data.error })
       setTimeout(() => {
         setNotification({ type:0,message:'' })
       },5000)

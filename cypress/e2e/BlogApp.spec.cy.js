@@ -45,27 +45,6 @@ describe('Blog app', function() {
       cy.contains('Getting new bike')
     })
 
-    it.only('user can like a blog',function() {
-      cy.createBlog({ title:'when the sun shine', url:'http://getlife', author:'melissa joan' })
-      cy.contains('when the sun shine')
-      cy.contains('view').click()
-      cy.contains('like').click()
-      cy.get('#likes')
-        .invoke('text')
-        .then(Number)
-        .then((n) => {
-          cy.get('#btnLikes').click()
-          cy.contains('#likes',String(n+1))
-        })
-    })
-
-    it('user who created blog can remove it', function() {
-      cy.createBlog({ title:'when the sun shine', url:'http://getlife', author:'melissa joan' })
-      cy.contains('view').click()
-      cy.get('#name').contains('sulaiman abid')
-      cy.get('#btnRemove').click()
-    })
-
     it('other user cannot remove other user blog', function() {
       cy.createBlog({ title:'Django Framework', url:'http://django.com', author:'toby diaz' })
       cy.contains('log out').click()
@@ -88,13 +67,34 @@ describe('Blog app', function() {
         cy.createBlog({ title:'going to the west', url:'http://nationalgeography', author:'choo mei soo' })
       })
 
+      it('user can like a blog',function() {
+        cy.contains('when the sun shine')
+        cy.contains('view').click()
+        cy.contains('like').click()
+        cy.get('#likes')
+          .invoke('text')
+          .then(Number)
+          .then((n) => {
+            cy.get('#btnLikes').click()
+            cy.contains('#likes',String(n+1))
+          })
+      })
+
       it('blogs are ordered according to likes', function() {
         cy.contains('view').click()
         cy.contains('like').click()
         cy.get('.blog').eq(0).should('contain', 'The imperial')
         cy.get('.blog').eq(1).should('contain', 'when the sun shine')
       })
-    })
 
+      it('user who created blog can remove it', function() {
+        cy.createBlog({ title:'when the sun shine', url:'http://getlife', author:'melissa joan' })
+        cy.contains('view').click()
+        cy.get('#name').contains('sulaiman abid')
+        cy.get('#btnRemove').click()
+      })
+
+    })
   })
+
 })

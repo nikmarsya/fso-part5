@@ -33,7 +33,6 @@ Cypress.Commands.add('login', ({ username,password }) => {
 })
 
 Cypress.Commands.add('createBlog', ({ title, url, author }) => {
-
   cy.contains('Create New Entries').click()
   cy.get('.title').type(title)
   cy.get('.author').type(author)
