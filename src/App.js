@@ -47,9 +47,7 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
       const result = await blogService.createBlog(newData)
 
-      const blogs = await blogService.getAll()
-      setBlogs( blogs )
-      blogs.sort((a,b) => b.likes-a.likes)
+      getList()
       setNotification({ type:0,message:`a new blog ${result.title} by ${result.author} is added` })
       setTimeout(() => {
         setNotification({ type:0,message:'' })
@@ -72,9 +70,7 @@ const App = () => {
       setUser(response.data)
       setUsername('')
       setPassword('')
-      const blogs = await blogService.getAll()
-      setBlogs( blogs )
-      blogs.sort((a,b) => b.likes-a.likes)
+      getList()
     }catch(err){
       setNotification({ type:1,message:err.response.data.error })
       setTimeout(() => {
@@ -87,9 +83,7 @@ const App = () => {
     try{
       if(window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
         await blogService.deleteBlog(blog.id)
-        const blogs = await blogService.getAll()
-        setBlogs( blogs )
-        blogs.sort((a,b) => b.likes-a.likes)
+        getList()
       }
     }catch(err){
       setNotification({ type:1,message:err.response.data })
@@ -103,15 +97,19 @@ const App = () => {
 
     try{
       await blogService.updateBlog(id,updateData)
-      const blogs = await blogService.getAll()
-      setBlogs( blogs )
-      blogs.sort((a,b) => b.likes-a.likes)
+      getList()
     }catch(err){
       setNotification({ type:1,message:err.response.data })
       setTimeout(() => {
         setNotification({ type:0,message:'' })
       },5000)
     }
+  }
+
+  const getList = async() => {
+    const blogs = await blogService.getAll()
+    setBlogs( blogs )
+    blogs.sort((a,b) => b.likes-a.likes)
   }
 
   useEffect(() => {
@@ -122,8 +120,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   },[])
-
-
 
   return (
     <div>

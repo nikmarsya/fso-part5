@@ -28,8 +28,8 @@ Cypress.Commands.add('login', ({ username,password }) => {
     username,password
   }).then(response => {
     localStorage.setItem('user',JSON.stringify(response.body))
-    cy.visit('http://localhost:3000')
   })
+  cy.visit('http://localhost:3000')
 })
 
 Cypress.Commands.add('createBlog', ({ title, url, author }) => {
@@ -46,6 +46,7 @@ Cypress.Commands.add('createUser', ({ username, name, password }) => {
     method: 'POST',
     body: { username, name, password }
   })
-  cy.visit('http://localhost:3000')
 })
+
+
 

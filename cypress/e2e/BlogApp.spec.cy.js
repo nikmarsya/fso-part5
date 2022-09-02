@@ -7,27 +7,31 @@ describe('Blog app', function() {
       'name': 'sulaiman abid',
       'password': 'qwerty'
     })
+    cy.visit('http://localhost:3000')
   })
 
-  it('login page can be opened', function() {
+  it('login form is shown', function() {
     cy.contains('Log in').click()
   })
 
-  it('fails with wrong credentials', function() {
-    cy.contains('Log in').click()
-    cy.get('#inUser').type('suabid')
-    cy.get('#inPassword').type('abc')
-    cy.get('#btnSubmit').click()
-    cy.contains('invalid username')
-    cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
-  })
+  describe('login',function(){
+    it('succeeds with correct credentials', function() {
+      cy.contains('Log in').click()
+      cy.get('#inUser').type('suabid')
+      cy.get('#inPassword').type('qwerty')
+      cy.get('#btnSubmit').click()
+      cy.contains('sulaiman abid logged in')
+    })
 
-  it('user can login', function() {
-    cy.contains('Log in').click()
-    cy.get('#inUser').type('suabid')
-    cy.get('#inPassword').type('qwerty')
-    cy.get('#btnSubmit').click()
-    cy.contains('sulaiman abid logged in')
+    it('fails with wrong credentials', function() {
+      cy.contains('Log in').click()
+      cy.get('#inUser').type('suabid')
+      cy.get('#inPassword').type('abc')
+      cy.get('#btnSubmit').click()
+      cy.contains('invalid username')
+      cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
+    })
+
   })
 
   describe('When logged in', function(){
